@@ -1,5 +1,6 @@
 import Layout from "../layouts/Layout";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Home() {
     const [message, setMessage] = useState('');
@@ -9,11 +10,11 @@ export default function Home() {
         (
             async () => {
                 try {
-                    const response = await fetch('http://localhost:8000/api/user', {
-                        credentials: 'include',
+                    const response = await axios.get('http://localhost:8000/api/user', {
+                        withCredentials: true,
                     });
 
-                    const content = await response.json();
+                    const content = response.data;
 
                     if (content.name) {
                         setMessage(`Hi ${content.name}`);

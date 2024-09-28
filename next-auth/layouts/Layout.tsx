@@ -2,19 +2,22 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import {useRouter} from 'next/router';
+import axios from 'axios';
 
 const Layout = (props) => {
     const router = useRouter();
     
     const logout = async () => {
-        await fetch('http://localhost:8000/api/logout', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'include'
-        });
+        try {
+            await axios.post('http://localhost:8000/api/logout', {}, {
+                headers: {'Content-Type': 'application/json'},
+                withCredentials: true
+            });
 
-
-        await router.push('/login');
+            await router.push('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
     }
 
     let menu;
